@@ -8,44 +8,20 @@
 import SwiftUI
 import CoreData
 
-struct CustomDisclosureStyle: DisclosureGroupStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        VStack(alignment: .leading) {
-            HStack {
-                configuration.label
-                    .font(.headline)
-                Spacer()
-                Image(systemName: configuration.isExpanded ? "chevron.down" : "chevron.right")
-            }
-            .contentShape(Rectangle()) // タップ範囲を拡大
-            .onTapGesture {
-                withAnimation {
-                    configuration.isExpanded.toggle()
-                }
-            }
-
-            if configuration.isExpanded {
-                configuration.content
-                    .padding()
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(8)
-            }
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(radius: 3)
-    }
-}
-
 struct ContentView: View {
     @State private var isExpanded = false
 
     var body: some View {
-        DisclosureGroup("詳細情報", isExpanded: $isExpanded) {
-            Text("カスタムスタイルを適用")
+        DisclosureGroup("詳細を表示", isExpanded: $isExpanded) {
+            Text("ここに詳細情報を表示")
+                .padding()
+                .background(Color.yellow.opacity(0.3)) // 展開時の背景色
+                .cornerRadius(8)
+                .foregroundColor(.black) // 文字色
         }
-        .disclosureGroupStyle(CustomDisclosureStyle())
         .padding()
+        .background(isExpanded ? Color.blue.opacity(0.2) : Color.gray.opacity(0.2)) // タイトル部分の背景色
+        .foregroundColor(isExpanded ? .white : .black) // タイトルの文字色
+        .cornerRadius(10)
     }
 }
